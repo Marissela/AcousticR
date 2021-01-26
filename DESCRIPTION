@@ -1,0 +1,24 @@
+Package: AcousticR
+Title: ToolBox para el Análisis de Datos Acústicos
+Version: 0.1.1
+Authors@R:
+    person("Marissela", "Pozada-Herrera", role = c("aut", "cre"), 
+                      email = "mpozada@imarpe.gob.pe")
+Description: Conjunto de herramientas para el análisis de datos 
+    acústicos y otros datos obtenidos durante las prospecciones 
+    del Instituto del Mar del Perú (IMARPE).
+License: MIT + file LICENSE
+Encoding: UTF-8
+LazyData: true
+Roxygen: list(markdown = TRUE)
+RoxygenNote: 7.1.0
+Suggests: 
+    testthat (>= 2.1.0)
+Imports: 
+    grDevices,
+    graphics,
+    utils,
+    fenix (>= 0.1.2),
+    seewave
+Remotes: 
+    PabloMBooster/fenix
