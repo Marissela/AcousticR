@@ -1,7 +1,8 @@
 #' @title Cálculo del centro de gravedad, inercia e isotropía
 #' @description Cálculo de índices espaciales: centro de gravedad, inercia
 #' e isotropía para un conjunto de datos georeferenciados.
-#' @usage cgi(x, y, z = NA, w = NA, modproj = NA, mlong = NA, mlat = NA, plot = F, path.save)
+#' @usage cgi(x, y, z = NA, w = NA, modproj = NA, mlong = NA, mlat = NA, plot = F,
+#' polig.color = NULL, path.save, name.file)
 #' @param x vector de x-coordenadas
 #' @param y vector de y-coordenadas
 #' @param z vector correspondiente a la variable regionalizada en 2D.
@@ -12,7 +13,10 @@
 #' @param mlat latitud media en grados de la base de datos a ser transformada.
 #' @param plot si \code{plot = T}, la elipse correspondiente a la inercia se añadirá
 #' automáticamente en una gráfica ya existente.
-#' @param path.save ruta en donde se guardarán los gráficos.
+#' @param polig.color si \code{plot = T}, se utilizará este color para la elipse
+#' añadida al gráfico.
+#' @param path.save ruta en donde se guardarán los gráficos y resultados.
+#' @param name.file nombre del archivo final con los resultados de la función.
 #' @return
 #' El resultado consiste en una lista que incluye:
 #' \item{cg}{coordenadas del centro de gravedad}
@@ -42,7 +46,8 @@
 
 
 
-cgi = function(x, y, z = NA, w = NA, modproj = NA, mlong = NA, mlat = NA, plot = F, path.save)
+cgi = function(x, y, z = NA, w = NA, modproj = NA, mlong = NA, mlat = NA,
+               plot = F, polig.color, path.save, name.file)
 {
   miss <- function(x){
     length(x) == 1 && is.na(x)
@@ -156,7 +161,7 @@ cgi = function(x, y, z = NA, w = NA, modproj = NA, mlong = NA, mlat = NA, plot =
     t   = seq(0, 2*pi, 0.01)
     xP  = xc + a*cos(t)*cos(phi) - b*sin(t)*sin(phi)
     yP  = yc + a*cos(t)*sin(phi) + b*sin(t)*cos(phi)
-    graphics::polygon(xP, yP, col = grDevices::rgb(1, 0, 0,0.5), border = NA)
+    graphics::polygon(xP, yP, col = grDevices::adjustcolor(polig.color, alpha.f = 0.5) , border = NA)
   }
 
   ## Distancias al centro de gravedad
@@ -183,7 +188,7 @@ cgi = function(x, y, z = NA, w = NA, modproj = NA, mlong = NA, mlat = NA, plot =
 
   res.csv = data.frame(var = as.factor(datF[,1]), lon = as.numeric(datF[,2]),
                        lat = as.numeric(datF[,3]), stringsAsFactors = F)
-  utils::write.csv(res.csv, file = paste0(path.save, 'CGIIso.csv'),row.names = F)
+  utils::write.csv(res.csv, file = paste0(path.save, name.file),row.names = F)
 
   ## agregando las distancias al CG calculadas al res
   res = append(res, c(dcCG, dsbCG), after=1)

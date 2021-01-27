@@ -4,7 +4,8 @@
 \alias{cgi}
 \title{Cálculo del centro de gravedad, inercia e isotropía}
 \usage{
-cgi(x, y, z = NA, w = NA, modproj = NA, mlong = NA, mlat = NA, plot = F, path.save)
+cgi(x, y, z = NA, w = NA, modproj = NA, mlong = NA, mlat = NA, plot = F,
+polig.color = NULL, path.save, name.file)
 }
 \arguments{
 \item{x}{vector de x-coordenadas}
@@ -25,7 +26,12 @@ De faltar, los resultados de 'cgi' solo abarcaran a las muestras.}
 \item{plot}{si \code{plot = T}, la elipse correspondiente a la inercia se añadirá
 automáticamente en una gráfica ya existente.}
 
-\item{path.save}{ruta en donde se guardarán los gráficos.}
+\item{polig.color}{si \code{plot = T}, se utilizará este color para la elipse
+añadida}
+
+\item{path.save}{ruta en donde se guardarán los gráficos y resultados.}
+
+\item{name.file}{nombre del archivo final con los resultados de la función.}
 }
 \value{
 El resultado consiste en una lista que incluye:
