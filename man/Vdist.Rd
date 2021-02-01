@@ -4,7 +4,7 @@
 \alias{Vdist}
 \title{Gráficos de distribución vertical}
 \usage{
-Vdist(datos, sp, xlim = c(3,18), ylim = c(0,100,10), plot.type = 1, path.save)
+Vdist(datos, sp, xlim = c(3,18), ylim = c(0,100,10), plot.type = 1)
 }
 \arguments{
 \item{datos}{data-frame con los datos de las regiones a analizar.}
@@ -22,8 +22,6 @@ valor corresponde al paso que se desea considerar para el eje y.}
 \item{plot.type}{Tipo de gráfico a realizar. Por default, \code{plot.type = 1}
 realiza gráficos de latitud vs profundidad. Si, \code{plot.type = 2}, se
 genera el gráfico de horas del día vs profundidad.}
-
-\item{path.save}{ruta en la cual se guardará el gráfico}
 }
 \description{
 Gráficos de distribución vertical

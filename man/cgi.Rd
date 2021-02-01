@@ -27,7 +27,7 @@ De faltar, los resultados de 'cgi' solo abarcaran a las muestras.}
 automáticamente en una gráfica ya existente.}
 
 \item{polig.color}{si \code{plot = T}, se utilizará este color para la elipse
-añadida}
+añadida al gráfico.}
 
 \item{path.save}{ruta en donde se guardarán los gráficos y resultados.}
 

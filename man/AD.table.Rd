@@ -4,7 +4,7 @@
 \alias{AD.table}
 \title{Tablas de descriptores acústicos de cardúmenes}
 \usage{
-AD.table(datos, sp = 'ANC', var, var.names, path.save)
+AD.table(datos, sp, var, var.names, path.save)
 }
 \arguments{
 \item{datos}{data-frame con los datos de las regiones a analizar.}
@@ -31,4 +31,11 @@ de variación).
 Si \code{sp = 'ANC'}, se obtienen 3 tablas, cada una de ellas de acuerdo a las regiones
 de pesca de la especie (i.e. región norte, centro y sur). Para las otras especies,
 los resultados son obtenidos de manera global en toda el área de estudio.
+
+Las regiones de pesca de anchoveta son consideradas de la siguiente manera:
+\describe{
+\item{region1}{Región norte, menor a 9.5°S}
+\item{region2}{Región centro, entre 9.5 a 16°S}
+\item{region3}{Región sur, mayor igual a 16°S}
+}
 }
