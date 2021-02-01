@@ -1,6 +1,6 @@
 #' @title Gráficos de distribución vertical
 #' @description Gráficos de distribución vertical
-#' @usage Vdist(datos, sp, xlim = c(3,18), ylim = c(0,100,10), plot.type = 1, path.save)
+#' @usage Vdist(datos, sp, xlim = c(3,18), ylim = c(0,100,10), plot.type = 1)
 #' @param datos data-frame con los datos de las regiones a analizar.
 #' @param sp vector con la(s) especie(s) a analizar. Las especies se
 #' consideran: anchoveta (ANC), munida (MUN), jurel (JUR), vinciguerria
@@ -12,7 +12,6 @@
 #' @param plot.type Tipo de gráfico a realizar. Por default, \code{plot.type = 1}
 #' realiza gráficos de latitud vs profundidad. Si, \code{plot.type = 2}, se
 #' genera el gráfico de horas del día vs profundidad.
-#' @param path.save ruta en la cual se guardará el gráfico
 #' @details
 #' Se realizan dos subplots acerca del comportamiento vertical de la(s)
 #' especie(s) a analizar.
@@ -23,7 +22,7 @@
 
 
 
-Vdist = function(datos, sp, xlim = c(3,18), ylim = c(0,100,10), plot.type = 1, path.save)
+Vdist = function(datos, sp, xlim = c(3,18), ylim = c(0,100,10), plot.type = 1)
 {
   ## Tabla de caracteristicas por especie
   species   = c('ANC', 'MUN', 'JUR', 'VIN', 'POT', 'BAG', 'CAB', 'SAM')
@@ -60,12 +59,15 @@ Vdist = function(datos, sp, xlim = c(3,18), ylim = c(0,100,10), plot.type = 1, p
     dat$depth_mean_floor  = floor(dat$Depth_mean)
     dat$latitud           = abs(ceiling(dat$Lat_M))
 
+    ## Seleccionar datos de acuerdo con xlim & ylim
+    indXY = which(abs(dat$Lat_M) >= xlim[1] & abs(dat$Lat_M) <= xlim[2] &
+                    dat$Depth_mean >= ylim[1] & dat$Depth_mean <= ylim[2])
+    dat   = dat[indXY,]
+
+    ## Base final
     list_SP[sp[isp]] = list(dat)
   }
 
-
-  grDevices::png(paste(path.save, 'VDistribution_', paste(sp, collapse = '-'), plot.type, '.png', sep = ''),
-      width = 13.4, height = 4.9, units = 'in', res = 96)
 
   ## Plot 1. Lat vs Prof | Hours vs Prof
   cols = matrix(NA, nrow = length(sp), ncol = 3)
@@ -87,8 +89,8 @@ Vdist = function(datos, sp, xlim = c(3,18), ylim = c(0,100,10), plot.type = 1, p
 
       if (isp == 1)
       {
-        # x11(width = 13.4, height = 4.9) # inches
-        # x11(width = 1287, height = 470) # px
+        x11(width = 13.4, height = 4.9) # inches
+
         figura = graphics::layout(matrix(c(1,2,3,4), ncol = 2, byrow = TRUE),
                         widths = c(0.80, 0.20, 1), heights = c(6,1))
         graphics::layout.show(figura)
@@ -105,9 +107,12 @@ Vdist = function(datos, sp, xlim = c(3,18), ylim = c(0,100,10), plot.type = 1, p
              labels = seq(ylim[1], ylim[2] , by = ylim[3]), cex = 1.6, las = 1)
         graphics::box(lwd = 2)
 
-        graphics::mtext(c("Pta.Sal", "La Negra", "Salaverry", "Huarmey", "Callao", "Pisco",
-                "Atico", "M.Sama"), side = 3, line = 0.5,
-              at = c(3.5, 5.5, 7.8, 10, 12, 14, 16, 18), cex = 1.6)
+        ## Colocar puertos de acuerdo al xlim
+        puertos     = c("Pta.Sal", "La Negra", "Salaverry", "Huarmey", "Callao", "Pisco", "Atico", "M.Sama")
+        at.puertos  = c(3.5, 5.5, 7.8, 10, 12, 14, 16, 18)
+
+        graphics::mtext(puertos[which(at.puertos >= xlim[1] & at.puertos <= xlim[2])], side = 3, line = 0.5,
+                        at = at.puertos[which(at.puertos >= xlim[1] & at.puertos <= xlim[2])], cex = 1.6)
 
         graphics::points(abs(list_SP[[sp[isp]]]$Lat_M), -list_SP[[sp[isp]]]$tsup, col = colors[list_SP[[sp[isp]]]$Svmean_factor],
                cex = 0.5)
@@ -128,8 +133,8 @@ Vdist = function(datos, sp, xlim = c(3,18), ylim = c(0,100,10), plot.type = 1, p
     {
       if (isp == 1)
       {
-        # x11(width = 13.4, height = 4.9) # inches
-        # x11(width = 1287, height = 470) # px
+        x11(width = 13.4, height = 4.9) # inches
+
         figura = graphics::layout(matrix(c(1,2,3,4), ncol = 2, byrow = TRUE),
                         widths = c(0.80, 0.20, 1), heights = c(6,1))
         graphics::layout.show(figura)
@@ -272,5 +277,4 @@ Vdist = function(datos, sp, xlim = c(3,18), ylim = c(0,100,10), plot.type = 1, p
              legend = paste0('Sv prom: ', SvmSP))
     }
   }
-  grDevices::dev.off()
 }
