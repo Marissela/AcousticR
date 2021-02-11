@@ -47,7 +47,7 @@
 
 
 cgi = function(x, y, z = NA, w = NA, modproj = NA, mlong = NA, mlat = NA,
-               plot = F, polig.color, path.save, name.file)
+               plot = F, polig.color = NULL, path.save, name.file)
 {
   miss <- function(x){
     length(x) == 1 && is.na(x)
