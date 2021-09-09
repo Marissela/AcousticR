@@ -35,16 +35,20 @@ filter.reg = function(file, sp = c('ANC', 'MUN', 'JUR', 'VIN', 'POT', 'BAG', 'CA
   ## lon & lat
   indLon  = which(datos$Lon_M > 0)
   indLat  = which(datos$Lat_M > 0)
-  index   = unique(c(indLon, indLat))
-  datos   = datos[-index, ]
 
   ## Sv
   indSv = which(datos$Sv_mean == -999)
-  datos = datos[-indSv,]
 
   ## No. pings
   indPing = which(datos$Ping_E - datos$Ping_S < 3)
-  datos   = datos[-indPing,]
+
+  ## eliminando datos
+  index = unique(c(indLon, indLat, indSv, indPing))
+  if (length(index) > 0)
+  {
+    datos = datos[-index,]
+  }
+
 
   ## campo cercano de acuerdo a cada frecuencia
   ## SIMRAD. (2015). Simrad EK60 Installation manual
